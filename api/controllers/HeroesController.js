@@ -1,8 +1,15 @@
 module.exports = {
   list: async (req, res) => {
+    try{
     const heroes = await Hero.find();
     return res.json(heroes);
+    //adicionei aqui uma função de erro, caso de erro ao criar a lista
+    }catch (err) {
+      return res.serverError(err);
+    }
   },
+
+
   listwithgun: async (req, res) => {
     try {
       const query = "SELECT * FROM hero INNER JOIN gun ON hero.id = gun.owner";
@@ -16,7 +23,9 @@ module.exports = {
     } catch (err) {
       return res.serverError(err);
     }
-  },
+  }, 
+
+
   create: async (req, res) => {
     try {
       const hero = await Hero.new(req.body).fetch();
